@@ -1,0 +1,44 @@
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label for="c-username" class="control-label col-xs-12 col-sm-2">{:__('姓名')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="" data-rule="required" class="form-control" name="row[real_name]" type="text" value="{$row.real_name}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="c-username" class="control-label col-xs-12 col-sm-2">{:__('Username')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-username" data-rule="required" class="form-control" name="row[username]" type="text" value="{$row.username|htmlentities}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="c-password" class="control-label col-xs-12 col-sm-2">{:__('Password')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-password" data-rule="password" class="form-control" name="row[password]" type="text" value="" placeholder="{:__('Leave password blank if dont want to change')}" autocomplete="new-password" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="c-mobile" class="control-label col-xs-12 col-sm-2">{:__('Mobile')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-mobile" data-rule="required;mobile" class="form-control" name="row[mobile]" type="text" value="{$row.mobile|htmlentities}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="c-mobile" class="control-label col-xs-12 col-sm-2">{:__('账号状态')}:</label>
+        <div class="col-xs-12 col-sm-4">
+            {$radio}
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

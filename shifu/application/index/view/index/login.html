@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet"  href="\assets\js\layui\css\layui.css">
+    <link rel="stylesheet"  href="\assets\js\layui\css\layui.mobile.css">
+    <link rel="stylesheet"  href="\assets\js\layui\css\main.css">
+
+    <style>
+
+
+    </style>
+</head>
+<body>
+
+<div style="text-align: center;margin-top: 150px" class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password"  placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+
+
+        <button type="button" lay-filter="*" lay-submit class="layui-btn">登录</button>
+
+
+
+
+</div>
+
+
+<script src="\assets\js\layui\layui.all.js"></script>
+<script>
+var $=layui.jquery;
+    layui.form.on('submit(*)', function(data){
+        console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+        $.post("{:url('index/index/login')}",data.field,function (data1) {
+            if(data1.code==1){
+                layui.layer.msg(data1.msg);
+                location.href="{:url('index/index/index')}"
+            }else {
+                layui.layer.msg(data1.msg);
+            }
+        },"json")
+        return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+    });
+</script>
+</body>
+</html>

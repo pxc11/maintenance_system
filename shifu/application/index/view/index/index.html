@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>接单系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="\assets\js\layui\css\layui.css">
+    <link rel="stylesheet" href="\assets\js\layui\css\layui.mobile.css">
+    <link rel="stylesheet" href="\assets\js\layui\css\main.css">
+    <link rel="stylesheet" href="https://unpkg.com/mescroll.js@1.4.1/mescroll.min.css">
+    <script src="https://unpkg.com/mescroll.js@1.4.1/mescroll.min.js" charset="utf-8"></script>
+
+    <style>
+        .mescroll{
+            position: fixed;
+            top: 10px;
+            bottom: 0;
+            height: auto; /*如设置bottom:50px,则需height:auto才能生效*/
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="mescroll" class="mescroll">
+    <div>
+        <div class="layui-tab layui-tab-brief" lay-filter="Demo">
+            <ul class="layui-tab-title">
+                <li lay-id="qb">全部</li>
+                <li lay-id="wjd" class="layui-this">未接单</li>
+                <li lay-id="yjd">已接单</li>
+                <li lay-id="ycl">已处理</li>
+                <li >密码更改</li>
+
+                <li>
+                    <button class="layui-btn layui-btn-xs layui-btn-danger" onclick="zx()">注销</button>
+                </li>
+
+
+            </ul>
+            <div class="layui-tab-content">
+                <div  id="qb" class="layui-tab-item "></div>
+                <div id="wjd" class="layui-tab-item layui-show"></div>
+                <div id="yjd" class="layui-tab-item"></div>
+                <div id="ycl" class="layui-tab-item"></div>
+                <div class="layui-tab-item">
+                    <div style="text-align: center;margin-top: 100px" class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">原密码</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="password_y" placeholder="请输入原密码" autocomplete="off"
+                                       class="layui-input">
+                            </div>
+
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="不输入默认不变" autocomplete="off" class="layui-input">
+                            </div>
+
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">密码</label>
+                            <div class="layui-input-inline">
+                                <input type="password" name="password" placeholder="不输入默认不变" autocomplete="off"
+                                       class="layui-input">
+                            </div>
+
+                        </div>
+
+
+                        <button type="button" lay-filter="*" lay-submit class="layui-btn">更改</button>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script id="card" type="text/html">
+    <div class="layui-card">
+        <div class="layui-card-header">订单：{{d.order_number}}
+            <div style="float: right">状态：
+                {{# if(d.order1.state=="未接单"){ }}
+                {{# if(d.state=="已拒绝"){ }}
+                <span style="color: #1f1ccc">{{d.state}}</span>
+                {{# }else{ }}
+                <span style="color: red">{{d.order1.state}}</span>
+                {{# } }}
+
+                {{# }else if(d.order1.state=="已接单"){ }}
+                <span style="color: #d84d17f7">{{d.order1.state}}</span>
+
+                {{# }else{ }}
+                <span style="color: green">{{d.order1.state}}</span>
+
+                {{# } }}
+
+            </div>
+        </div>
+        <div class="layui-card-body">
+            <table class="layui-table" lay-size="sm" lay-skin="nob">
+                <tr>
+                    <th>报修人：</th>
+                    <td>{{d.order1.client_name}}</td>
+                    <th>手机：</th>
+                    <td>{{d.order1.client_mobile}}</td>
+                </tr>
+                {{# if(d.order1.client_address){ }}
+                <tr>
+                    <th>报修人地址：</th>
+                    <td colspan="3">{{d.order1.client_address}}</td>
+                </tr>
+                {{# } }}
+                <tr>
+                    <th>故障现象：</th>
+                    <td colspan="3">{{d.order1.malfunction}}</td>
+                </tr>
+                {{# if(d.order1.emergency_address){ }}
+                <tr>
+                    <th>救急地址：</th>
+                    <td colspan="3">{{d.order1.emergency_address}}</td>
+                </tr>
+                {{# } }}
+                <tr>
+                    <th>所属厂家：</th>
+                    <td colspan="3">{{d.order1.factory}}</td>
+                </tr>
+
+                {{# if(d.order1.car_code){ }}
+                <tr>
+                    <th colspan="1">车辆识别码：</th>
+                    <td colspan="3">{{d.order1.car_code}}</td>
+                </tr>
+                {{# } }}
+                {{# if(d.order1.engine_code){ }}
+                <tr>
+                    <th colspan="1">发动机号码：</th>
+                    <td colspan="2">{{d.order1.engine_code}}</td>
+                </tr>
+                {{# } }}
+
+
+                <tr style="border-top: 1px solid #f6f6f6;">
+                    <th>创建时间：</th>
+                    <td colspan="3">{{d.order1.createtime}}</td>
+                </tr>
+                {{# if(d.order1.order_remark){ }}
+                <tr>
+                    <th>订单备注：</th>
+                    <td colspan="3">{{d.order1.order_remark}}</td>
+                </tr>
+                {{# } }}
+                {{# if(d.order1.state!="未接单"){ }}
+                <tr>
+                    <th>处理人：</th>
+                    <td>{{d.order1.user_real_name}}</td>
+                </tr>
+                {{# } }}
+                {{# if(d.order1.state=="已接单"){ }}
+                <tr>
+                    <th>接单时间：</th>
+                    <td colspan="3">{{d.order1.updatetime}}</td>
+                </tr>
+                {{# }else if(d.order1.state=="已处理"){ }}
+                <tr>
+                    <th>处理时间：</th>
+                    <td colspan="3">{{d.order1.updatetime}}</td>
+                </tr>
+                {{# }else{ }}
+                {{# } }}
+                {{# if(d.order1.deal_remark){ }}
+                <tr>
+                    <th>处理人备注：</th>
+                    <td colspan="3">{{d.order1.deal_remark}}</td>
+                </tr>
+                {{# } }}
+
+            </table>
+        </div>
+        {{# if(d.order1.state=="未接单"){ }}
+        <div style="text-align: center" class="layui-btn-container">
+
+            {{# if(d.state!="已拒绝"){ }}
+            <button type="button" onclick="jd({{d.order1.id}})" class="layui-btn layui-btn-normal layui-btn-sm">立即接单
+            </button>
+            <button type="button" onclick="jj({{d.order1.id}})" class="layui-btn layui-btn-danger layui-btn-sm">拒绝
+            </button>
+            {{# } }}
+
+
+        </div>
+        {{# }else if(d.order1.state=="已接单"&&d.order1.deal_user_id==d.current_uid){ }}
+        <div style="text-align: center" class="layui-btn-container">
+
+            <button type="button" onclick="cl({{d.order1.id}})" class="layui-btn  layui-btn-sm">处理完成</button>
+
+        </div>
+        {{# }else{ }}
+        {{# } }}
+    </div>
+</script>
+
+
+<script src="\assets\js\layui\layui.all.js"></script>
+
+<script>
+
+    var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
+    var flow = layui.flow;
+    var laytpl = layui.laytpl;
+    var element=layui.element;
+    flow_z();
+    var mescroll = new MeScroll("mescroll", { //第一个参数"mescroll"对应上面布局结构div的id (1.3.5版本支持传入dom对象)
+        //如果您的下拉刷新是重置列表数据,那么down完全可以不用配置,具体用法参考第一个基础案例
+        //解析: down.callback默认调用mescroll.resetUpScroll(),而resetUpScroll会将page.num=1,再触发up.callback
+        down: {
+            callback: function () {
+
+                flow_z();
+                mescroll.endSuccess(); //无参. 注意结束下拉刷新是无参的
+            } //下拉刷新的回调,别写成downCallback(),多了括号就自动执行方法了
+        },
+
+    });
+
+
+
+    function jd(id) {
+        layui.layer.confirm("确认接单？", "", function (index) {
+            let load = layui.layer.load(0);
+            $.post("{:url('jd')}", {id: id}, function (data) {
+                layui.layer.msg(data.msg, {time: 2000}, function () {
+                    layui.layer.close(load);
+                    element.tabChange("Demo", "yjd");
+                    flow_z();
+                });
+
+
+            }, "json")
+        })
+    }
+
+    function jj(id) {
+        layui.layer.confirm("确认拒绝该单吗？", "", function (index) {
+            let load = layui.layer.load(0);
+            $.post("{:url('jj')}", {id: id}, function (data) {
+                layui.layer.msg(data.msg, {time: 2000}, function () {
+                    layui.layer.close(load);
+                    element.tabChange("Demo", "wcl");
+                    flow_z();
+                });
+
+
+            }, "json")
+        })
+    }
+
+    function cl(id) {
+        layui.layer.confirm("确认处理完成？", "", function (index) {
+            let load = layui.layer.load(0);
+            $.post("{:url('cl')}", {id: id}, function (data) {
+                layui.layer.msg(data.msg, {time: 2000}, function () {
+                    layui.layer.close(load);
+                    element.tabChange("Demo", "ycl");
+                    flow_z();
+                });
+
+            }, "json")
+        })
+    }
+
+    layui.form.on('submit(*)', function (data) {
+        console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+        $.post("{:url('index/index/change_password')}", data.field, function (data1) {
+            if (data1.code == 1) {
+                layui.layer.msg(data1.msg, {time: 2000}, function () {
+                    location.reload();
+                });
+
+            } else {
+                layui.layer.msg(data1.msg);
+            }
+        }, "json")
+        return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+    });
+
+    function zx() {
+        location.href = "{:url('zx')}";
+    }
+
+    function flow_z() {
+        $("#qb,#wjd,#ycl,#yjd").html("");
+        flow.load({
+            elem: '#qb' //指定列表容器
+            , done: function (page, next) { //到达临界点（默认滚动触发），触发下一页
+                var lis = [];
+                //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+                $.post('{:url("order_list")}?page=' + page, function (res) {
+
+                    layui.each(res.data, function (index, item) {
+                        item.current_uid={$user_id};
+                        laytpl(card.innerHTML).render(item, function (html) {
+                            lis.push(html);
+                        })
+
+                    }, "json");
+
+                    next(lis.join(''), page < Math.ceil(res.total / res.per_page));
+                });
+            }
+        });
+        flow.load({
+            elem: '#yjd' //指定列表容器
+            , done: function (page, next) { //到达临界点（默认滚动触发），触发下一页
+                var lis = [];
+                //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+                $.post('{:url("order_list",["type"=>"yjd"])}?page=' + page, function (res) {
+                    //假设你的列表返回在data集合中
+                    layui.each(res.data, function (index, item) {
+                        item.current_uid={$user_id};
+                        laytpl(card.innerHTML).render(item, function (html) {
+                            lis.push(html);
+                        })
+
+                    }, "json");
+
+                    next(lis.join(''), page < Math.ceil(res.total / res.per_page));
+                });
+            }
+        });
+        flow.load({
+            elem: '#wjd' //指定列表容器
+            , done: function (page, next) { //到达临界点（默认滚动触发），触发下一页
+                var lis = [];
+                //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+                $.post('{:url("order_list",["type"=>"wjd"])}?page=' + page, function (res) {
+                    //假设你的列表返回在data集合中
+                    layui.each(res.data, function (index, item) {
+                        laytpl(card.innerHTML).render(item, function (html) {
+                            lis.push(html);
+                        })
+
+                    }, "json");
+
+                    next(lis.join(''), page < Math.ceil(res.total / res.per_page));
+                });
+            }
+        });
+        flow.load({
+            elem: '#ycl' //指定列表容器
+            , done: function (page, next) { //到达临界点（默认滚动触发），触发下一页
+                var lis = [];
+                //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
+                $.post('{:url("order_list",["type"=>"ycl"])}?page=' + page, function (res) {
+                    //假设你的列表返回在data集合中
+                    layui.each(res.data, function (index, item) {
+                        laytpl(card.innerHTML).render(item, function (html) {
+                            lis.push(html);
+                        })
+
+                    }, "json");
+
+                    next(lis.join(''), page < Math.ceil(res.total / res.per_page));
+                });
+            }
+        });
+    }
+
+
+
+
+</script>
+
+
+</body>
+</html>

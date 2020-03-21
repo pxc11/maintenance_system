@@ -1,0 +1,38 @@
+.layui-tab-title li{
+    padding: 0 14px;
+}
+.layui-tab{
+    margin: 0px;
+    padding: 10px 0;
+}
+.layui-table{
+    padding: 2px 0;
+}
+.layui-table th{
+    text-align: right;
+
+}
+.layui-table td{
+    text-align: left;
+
+}
+
+.layui-table[lay-size=sm] td, .layui-table[lay-size=sm] th {
+    font-size: 12px;
+    padding:5px 2px;!important;
+}
+.layui-card{
+    border: 1px solid #c2c2c2;
+    border-radius: 5px;
+}
+.layui-card-body {
+    padding: 0 ;
+}
+.layui-card-header{
+    padding: 0 10px 0 15px;
+    height: 36px;
+
+}
+.layui-form-item{
+    width: 90%;
+}

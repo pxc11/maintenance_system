@@ -1,0 +1,87 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Client_name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-client_name" data-rule="required" class="form-control" name="row[client_name]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Client_mobile')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-client_mobile" data-rule="required;mobile" class="form-control" name="row[client_mobile]"
+                   type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Malfunction')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <textarea name="row[malfunction]" data-rule="required" class="form-control" id="c-malfunction" cols="30"
+                      rows="10" name="" id="" cols="30" rows="10"></textarea>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Factory')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-factory" class="form-control" name="row[factory]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Buy_date')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-buy_date" class="form-control datetimepicker" data-date-format="YYYY-MM-DD"
+                   data-use-current="false" name="row[buy_date]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Car_code')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-car_code" class="form-control" name="row[car_code]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Engine_code')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-engine_code" class="form-control" name="row[engine_code]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Emergency_address')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-emergency_address" class="form-control" name="row[emergency_address]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Client_address')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-client_address" class="form-control" name="row[client_address]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Order_remark')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea class="form-control" name="row[order_remark]" id="c-order_remark" cols="30" rows="10"></textarea>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('派发')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {$userList}
+        </div>
+    </div>
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>
+
+
