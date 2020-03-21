@@ -25,29 +25,29 @@ class Index extends Controller
             $this->is_login();;
         }
 
-        if(\request()->isAjax()&&Session::get("user")){
-            $user_id=Session::get("user")->id;
-            $user=\app\common\model\User::get($user_id);
-            if($user->is_use=="冻结"){
+        if (\request()->isAjax() && Session::get("user")) {
+            $user_id = Session::get("user")->id;
+            $user = \app\common\model\User::get($user_id);
+            if ($user->is_use == "冻结") {
                 Session::delete("user");
                 $this->error("账号已冻结，无法使用");
                 exit();
             }
-            Session::set("user",$user);
+            Session::set("user", $user);
         }
-        if(!\request()->isAjax()&&Session::get("user")){
-            $user_id=Session::get("user")->id;
-            $user=\app\common\model\User::get($user_id);
+        if (!\request()->isAjax() && Session::get("user")) {
+            $user_id = Session::get("user")->id;
+            $user = \app\common\model\User::get($user_id);
 
 
-            if($user->is_use=="冻结"){
+            if ($user->is_use == "冻结") {
 
                 Session::delete("user");
-                header("location:".url("index/freeze/index"));
+                header("location:" . url("index/freeze/index"));
                 //$this->error("账号已冻结，无法使用","freeze/index");
                 exit();
             }
-            Session::set("user",$user);
+            Session::set("user", $user);
         }
         parent::__construct($request);
     }
@@ -77,7 +77,7 @@ class Index extends Controller
             if (!$user) {
                 $this->error("用户不存在");
             }
-            if($user->is_use=="冻结"){
+            if ($user->is_use == "冻结") {
                 $this->error("该用户已被冻结，无法登陆！");
             }
             Session::set("user", $user);
@@ -97,11 +97,19 @@ class Index extends Controller
     {
         $user = Session::get("user");
         if ($user) {
-
+            $user1 = \app\common\model\User::get($user->id);
+            Session::set("user",$user1);
             if (WeXin::is_weixin()) {
+                if($user->openid!=$user1->openid){
+                    Session::delete("user");
+                    header("location:".url("login"));
+                    die();
+                }
                 if (!$user->openid) {
+
                     if (!input("code")) {
                         (new WeXin())->weixin_jump();
+                        die();
                     } else {
                         $user->openid = (new WeXin())->getOpenId(input("code"));
                         $user->save();
@@ -109,6 +117,7 @@ class Index extends Controller
                 }
             }
         } else {
+
             if (WeXin::is_weixin()) {
                 if (input("code")) {
 
@@ -135,6 +144,7 @@ class Index extends Controller
                 }
             } else {
                 $this->error("请登录1", "login");
+                die();
             }
 
 
@@ -152,7 +162,7 @@ class Index extends Controller
             $where['state'] = "已接单";
         }
         if ($type == "wjd") {
-            $where['state'] = ["in", ["已拒绝","未接单"]];
+            $where['state'] = ["in", ["已拒绝", "未接单"]];
             $where['is_start'] = "否";
 
 
@@ -187,13 +197,13 @@ class Index extends Controller
         if (!$order) {
             $this->error("没找到订单");
         }
-        if ($order->state != "未接单" ) {
+        if ($order->state != "未接单") {
             $this->error("订单已被接");
         }
         try {
             Db::startTrans();
             $order->state = "已接单";
-            $order->jd_time=time();
+            $order->jd_time = time();
             $uid = Session::get("user")->id;
             $order->deal_user_id = $uid;
             $order->save();
@@ -220,7 +230,7 @@ class Index extends Controller
         try {
             Db::startTrans();
 
-            Dispatch::where(['order_number' => $order->order_number, "uid" => Session::get("user")->id])->update(['state' => "已拒绝", "updatetime" => time(),"jj_time"=>time()]);
+            Dispatch::where(['order_number' => $order->order_number, "uid" => Session::get("user")->id])->update(['state' => "已拒绝", "updatetime" => time(), "jj_time" => time()]);
             Db::commit();
             $this->success("已拒绝");
 
@@ -308,7 +318,8 @@ class Index extends Controller
         header("location:" . url("index"));
     }
 
-    public function dj(){
+    public function dj()
+    {
         return $this->view->fetch("dj");
     }
 
