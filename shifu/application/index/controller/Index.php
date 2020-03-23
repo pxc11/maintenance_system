@@ -166,7 +166,7 @@ class Index extends Controller
         if ($type == "wjd") {
             $uid=Session::get("user")->id;
             $where=[];
-            $where1="(state ='未接单' and uid =$uid and state =  '否') or  (state = '已拒绝' and uid =$uid )";
+            $where1="(state ='未接单' and uid =$uid and is_start =  '否') or  (state = '已拒绝' and uid =$uid )";
 
         }
         if ($type == "ycl") {
@@ -179,7 +179,7 @@ class Index extends Controller
             $where=[];
             $order = "createtime desc";
             $uid=Session::get("user")->id;
-            $where1="(state = '未接单' and is_start = '否' and uid = $uid) or (state in ('已接单','已处理') and uid = $uid)";
+            $where1="(state = '未接单' and is_start != '是' and uid = $uid) or (state in ('已接单','已处理') and uid = $uid)";
             //$sql=Dispatch::with(['order1'])->where($where)->where($where1)->order($order)->buildSql();
             //dump($sql);
         }
