@@ -60,7 +60,7 @@ class WeXin extends Controller
             "keyword1" => $order->client_name . "-" . $order->client_mobile,
             "keyword2" => $time,
             "keyword3" => $order->emergency_address,
-            "keyword4" => "维修",
+            "keyword4" => $order->malfunction,
             "keyword5" => $order->factory,
             "remark" => $order->order_remark
         ];

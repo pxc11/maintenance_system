@@ -4,6 +4,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
     var Controller = {
         index: function () {
+
             // 初始化表格参数配置
             Table.api.init({
                 extend: {
@@ -22,6 +23,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'id',
+                searchFormVisible:true,
                 sortName: 'id',
                 columns: [
                     [
@@ -37,6 +39,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'engine_code', title: __('Engine_code'),visible:false},
                         {field: 'malfunction', title: __('Malfunction')},
                         {field: 'emergency_address', title: __('Emergency_address')},
+                        {field: 'order_remark', title: __('订单备注')},
                         {field: 'state', title: __('State'), searchList: {"未接单":__('未接单'),"已接单":__('已接单'),"已处理":__('已处理')}, formatter: Table.api.formatter.normal,
                         custom: {"已处理":"success","未接单":"danger","已接单":"info"}
                         },

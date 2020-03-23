@@ -87,11 +87,23 @@ class User extends Backend
             if ($params) {
                 $params = $this->preExcludeFields($params);
 
-                //新增
-                $username_count=\app\common\model\User::where(["username"=>$params['username']])->count();
-                if($username_count>1){
-                    $this->error("用户名已存在,修改失败");
+                if($row->username!=$params['username']){
+                    $username_count=\app\common\model\User::where(["username"=>$params['username']])->count();
+                    if($username_count>0){
+                        $this->error("用户名已存在,修改失败");
+                    }
                 }
+                if($row->real_name!=$params["real_name"]){
+                    $real_name=$params["real_name"];
+                    $r=\app\admin\model\User::where(["real_name"=>$real_name])->count();
+                    if($r>0){
+                        $this->error("姓名重复，无法添加");
+                    }
+                }
+
+
+
+
 
 
 

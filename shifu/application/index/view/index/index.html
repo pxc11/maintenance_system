@@ -92,12 +92,11 @@
     <div class="layui-card">
         <div class="layui-card-header">订单：{{d.order_number}}
             <div style="float: right">状态：
-                {{# if(d.order1.state=="未接单"){ }}
                 {{# if(d.state=="已拒绝"){ }}
                 <span style="color: #1f1ccc">{{d.state}}</span>
                 {{# }else{ }}
+                {{# if(d.order1.state=="未接单"){ }}
                 <span style="color: red">{{d.order1.state}}</span>
-                {{# } }}
 
                 {{# }else if(d.order1.state=="已接单"){ }}
                 <span style="color: #d84d17f7">{{d.order1.state}}</span>
@@ -106,16 +105,19 @@
                 <span style="color: green">{{d.order1.state}}</span>
 
                 {{# } }}
+                {{# } }}
+
+
 
             </div>
         </div>
         <div class="layui-card-body">
-            <table class="layui-table" lay-size="sm" lay-skin="nob">
+            <table class="layui-table" style="table-layout: fixed" lay-size="sm" lay-skin="nob">
                 <tr>
                     <th>报修人：</th>
                     <td>{{d.order1.client_name}}</td>
                     <th>手机：</th>
-                    <td>{{d.order1.client_mobile}}</td>
+                    <td><a href="tel:{{d.order1.client_mobile}}">{{d.order1.client_mobile}}</a></td>
                 </tr>
                 {{# if(d.order1.client_address){ }}
                 <tr>
@@ -137,6 +139,12 @@
                     <th>所属厂家：</th>
                     <td colspan="3">{{d.order1.factory}}</td>
                 </tr>
+                {{# if(d.order1.buy_date){ }}
+                <tr>
+                    <th colspan="1">购买日期：</th>
+                    <td colspan="2">{{d.order1.buy_date}}</td>
+                </tr>
+                {{# } }}
 
                 {{# if(d.order1.car_code){ }}
                 <tr>
@@ -152,16 +160,19 @@
                 {{# } }}
 
 
+
                 <tr style="border-top: 1px solid #f6f6f6;">
                     <th>创建时间：</th>
                     <td colspan="3">{{d.order1.createtime}}</td>
                 </tr>
-                {{# if(d.order1.order_remark){ }}
+
                 <tr>
-                    <th>订单备注：</th>
+                    <th>备注：</th>
                     <td colspan="3">{{d.order1.order_remark}}</td>
                 </tr>
-                {{# } }}
+
+                {{# if(d.state != "已拒绝"){ }}
+
                 {{# if(d.order1.state!="未接单"){ }}
                 <tr>
                     <th>处理人：</th>
@@ -186,6 +197,9 @@
                     <td colspan="3">{{d.order1.deal_remark}}</td>
                 </tr>
                 {{# } }}
+
+                {{# } }}
+
 
             </table>
         </div>
@@ -234,6 +248,8 @@
         },
 
     });
+
+
 
 
 

@@ -158,33 +158,41 @@ class Index extends Controller
         $where = [];
         $type = input("type", "all");
         $limit = input("limit", 10);
+        $where1="";
+        $where['uid'] = Session::get("user")->id;
         if ($type == "yjd") {
             $where['state'] = "已接单";
         }
         if ($type == "wjd") {
-            $where['state'] = ["in", ["已拒绝", "未接单"]];
-            $where['is_start'] = "否";
-
+            $uid=Session::get("user")->id;
+            $where=[];
+            $where1="(state ='未接单' and uid =$uid and state =  '否') or  (state = '已拒绝' and uid =$uid )";
 
         }
         if ($type == "ycl") {
             $where['state'] = "已处理";
         }
+
         if ($type != "all") {
             $order = "updatetime desc";
         } else {
+            $where=[];
             $order = "createtime desc";
-
+            $uid=Session::get("user")->id;
+            $where1="(state = '未接单' and is_start = '否' and uid = $uid) or (state in ('已接单','已处理') and uid = $uid)";
+            //$sql=Dispatch::with(['order1'])->where($where)->where($where1)->order($order)->buildSql();
+            //dump($sql);
         }
 
-        $where['uid'] = Session::get("user")->id;
 
-        $list = Dispatch::with(['order1'])->where($where)->order($order)->paginate($limit)->toArray();
+
+        $list = Dispatch::with(['order1'])->where($where)->where($where1)->order($order)->paginate($limit)->toArray();
         foreach ($list['data'] as &$v) {
             $user = \app\admin\model\User::get($v['order1']['deal_user_id']);
             $v['order1']['user_real_name'] = $user ? $user->real_name : null;
             $v['order1']['createtime'] = date("Y-m-d H:i:s", $v['order1']['createtime']);
             $v['order1']['updatetime'] = date("Y-m-d H:i:s", $v['order1']['updatetime']);
+            $v['order1']['buy_date'] = $v['order1']['buy_date']?date("Y-m-d", $v['order1']['buy_date']):null;
         }
         return json($list);
 

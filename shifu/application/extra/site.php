@@ -1,10 +1,28 @@
 <?php
 
 return array (
-  'name' => '派单管理2',
+  'name' => '派单管理',
   'fixedpage' => 'dashboard',
-  'appid' => 'wx5c4ce8f5887e53f9',
-  'app_secret' => '5fc1d789743e0b6856b912bd2d5680bb',
+  'categorytype' => 
+  array (
+    'default' => 'Default',
+    'page' => 'Page',
+    'article' => 'Article',
+    'test' => 'Test',
+  ),
+  'configgroup' => 
+  array (
+    'basic' => 'Basic',
+  ),
+  'mail_type' => '1',
+  'mail_smtp_host' => 'smtp.qq.com',
+  'mail_smtp_port' => '465',
+  'mail_smtp_user' => '10000',
+  'mail_smtp_pass' => 'password',
+  'mail_verify_type' => '2',
+  'mail_from' => '10000@qq.com',
+  'appid' => 'wx3f23aeb7c6052a39',
+  'app_secret' => 'a2652d039e640fc9273829029aa3c087',
   'template_id' => 'OPENTM418047306',
-  'access_token' => '31_6wB7e03Izze5Iw9HJrlr_ESDJadmw_Lc1nBh2541g2Ysn7pJ1unS0luznDtzbfPC6uM3wSD17U_UyJQQw3OunjzBAJ3QD1tyBK4G8v6w6JgXmKIs8Cd-ayuNm2DYcJ-HgkmdQU9YZ-3yISvxMJZbAHAROE',
+  'access_token' => '31_4kLRC6LJvAvW9h-0vkH9y3As14WJgCHd2fmR7s2o4UyddxISePTQmBmUlGZninFOHnf1uTQWvCu6LHinPaZfI4MKALcjQJ7zlEBCg6lCNpIhh43AcDW__MW3m79HkO4pTm1KwmL7rFAxLJ7VBOPfACASFG',
 );
